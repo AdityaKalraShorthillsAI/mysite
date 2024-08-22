@@ -139,22 +139,23 @@ class DemographicDataTest(models.Model):
     native_country = models.CharField(max_length=100, choices=COUNTRY_CHOICES, null=True, blank=True)
     income = models.CharField(max_length=5, choices=INCOME_TARGET_CHOICES, null=True)
 
-
-
 class WorkClass(models.Model):
     label = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.label
     
 
 class Education(models.Model):
     label = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.label
 
 
 class Occupation(models.Model):
     label = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.label
 
@@ -170,19 +171,45 @@ class NativeCountry(models.Model):
     def __str__(self):
         return self.label
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['label']),
+            models.Index(fields=['abbreivation']),
+        ]
+
+
 class Race(models.Model):
     label = models.CharField(max_length=20, unique=True)
+
     def __str__(self):
         return self.label
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['label']),
+        ]
+
 
 class Sex(models.Model):
     label = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['label']),
+        ]
+
+
 class Relationship(models.Model):
     label = models.CharField(max_length=20, unique=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['label']),
+        ]
+
+
 class DemographicData(models.Model):
-    age = models.IntegerField()
+    age = models.IntegerField(db_index=True)
     workclass = models.ForeignKey(WorkClass, on_delete=models.SET_NULL, null=True, related_name='workclasses')
     fnlwgt = models.IntegerField()
     education = models.ForeignKey(Education, on_delete=models.SET_NULL, null=True, related_name='education')
@@ -196,3 +223,13 @@ class DemographicData(models.Model):
     capital_gain = models.IntegerField()
     capital_loss = models.IntegerField()
     hours_per_week = models.IntegerField()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['workclass']),
+            models.Index(fields=['education']),
+            models.Index(fields=['occupation']),
+            models.Index(fields=['race']),
+            models.Index(fields=['sex']),
+            models.Index(fields=['native_country']),
+        ]
