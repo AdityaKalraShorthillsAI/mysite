@@ -2,13 +2,12 @@
 # from rest_framework.routers import DefaultRouter
 # from .views import DemographicDataTestViewSet
 
-# router = DefaultRouter()
-# router.register(r'demographic_data', DemographicDataTestViewSet, basename='dataset')
+# # router = DefaultRouter()
+# # router.register(r'demographic_data', DemographicDataTestViewSet, basename='dataset')
 
 
 # urlpatterns = router.urls
-
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
 from .views import WorkClassAPIView, EducationAPIView, OccupationAPIView, MaritalStatusAPIView, NativeCountryAPIView, RaceAPIView, SexAPIView, RelationshipAPIView, DemographicDataAPIView
 
@@ -33,11 +32,17 @@ urlpatterns = [
     path('demographicdata/<int:pk>/', DemographicDataAPIView.as_view()),
 ]
 
+
 # urls.py
 
 
 
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
+# if settings.DEBUG:
 
+# from django.urls import path
+# from .views import DemographicDataListCreateView, DemographicDataRetrieveView
+
+# urlpatterns = [
+#     path('demographicdata/', DemographicDataListCreateView.as_view(), name='demographicdata-list-create'),
+#     path('demographicdata/<int:pk>/', DemographicDataRetrieveView.as_view(), name='demographicdata-retrieve'),
+# ]
